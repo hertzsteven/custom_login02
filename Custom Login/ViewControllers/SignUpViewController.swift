@@ -41,18 +41,67 @@ class SignUpViewController: UIViewController {
             return
         }
         
-        guard let email = emailTextField.text, let password = passwordTextField.text else { return  }
+        guard let email = emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+            let password = passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+            let firstName = firstNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+            let lastName = lastNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+        else { return  }
         
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if let err = error {
-                self.showError(error: "Error Creating User")
+                self.showError(error: "Error Creating User \(err.localizedDescription)")
             } else {
                 /// user created now store it
+                print("Creating the user")
+
+                let db = Firestore.firestore()
+                
+                let docRef = db.collection("apiKeys").document("ydeSchool")
+                docRef.getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        guard let record = document.data(), let teacherAPIKey = record["teacherAPIKey"] as? String
+                        else {fatalError("could not convert it to a non optional")}
+                        
+                        let uid = authResult!.user.uid
+                        var ref: DocumentReference? = nil
+                        
+                        
+                        // Add a new document in collection "cities"
+                        db.collection("users").document(uid).setData([
+                            "firstName": firstName,
+                            "last": lastName,
+                            "uid": uid,
+                            "apiKey": teacherAPIKey
+                        ]) { err in
+                            if let err = err {
+                                print("Error writing document: \(err)")
+                            } else {
+                                print("Document successfully written!")
+                            }
+                        }
+                        
+                        
+//                        ref = db.collection("users").addDocument(data: [
+//                            "firstName": firstName,
+//                            "last": lastName,
+//                            "uid": uid,
+//                            "apiKey": teacherAPIKey
+//                        ]) { err in
+//                            if let err = err {
+//                                print("Error adding document: \(err)")
+//                            } else {
+//                                print("Document added with ID: \(ref!.documentID)")
+//                            }
+//                        }
+
+                    } else {
+                        print("Document does not exist")
+                    }
+                }
+                
                 
             }
         }
-        
-        /// Create User
         
         
         /// Transition to home screen
@@ -95,14 +144,5 @@ class SignUpViewController: UIViewController {
         return nil
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
