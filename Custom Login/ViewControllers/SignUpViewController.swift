@@ -54,6 +54,9 @@ class SignUpViewController: UIViewController {
                 /// user created now store it
                 print("Creating the user")
                 
+                
+                /*
+                /// Delete the user
                 let user = authResult!.user
 
                 user.delete { error in
@@ -66,6 +69,7 @@ class SignUpViewController: UIViewController {
                     print("Account deleted")
                   }
                 }
+                */
                 
                 /* Send e-mail confirmation
                 Auth.auth().currentUser?.sendEmailVerification { (error) in
