@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		460B2A4F23C3845D00F93BCF /*  Logins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460B2A4E23C3845D00F93BCF /*  Logins.swift */; };
 		465B37F723BA821200E67F55 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 465B37F623BA821200E67F55 /* GoogleService-Info.plist */; };
 		46A2C5C123BA2BC8002D59C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A2C5C023BA2BC8002D59C2 /* AppDelegate.swift */; };
 		46A2C5C323BA2BC8002D59C2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A2C5C223BA2BC8002D59C2 /* SceneDelegate.swift */; };
@@ -24,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		26C28AD16D9FB78FD41325A0 /* Pods-Custom Login.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Custom Login.release.xcconfig"; path = "Target Support Files/Pods-Custom Login/Pods-Custom Login.release.xcconfig"; sourceTree = "<group>"; };
+		460B2A4E23C3845D00F93BCF /*  Logins.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " Logins.swift"; sourceTree = "<group>"; };
 		465B37F623BA821200E67F55 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		46A2C5BD23BA2BC8002D59C2 /* Custom Login.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Custom Login.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		46A2C5C023BA2BC8002D59C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -54,6 +56,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		460B2A4D23C3841F00F93BCF /* models */ = {
+			isa = PBXGroup;
+			children = (
+				460B2A4E23C3845D00F93BCF /*  Logins.swift */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
 		46A2C5B423BA2BC8002D59C2 = {
 			isa = PBXGroup;
 			children = (
@@ -75,6 +85,7 @@
 		46A2C5BF23BA2BC8002D59C2 /* Custom Login */ = {
 			isa = PBXGroup;
 			children = (
+				460B2A4D23C3841F00F93BCF /* models */,
 				46A2C5C623BA2BC8002D59C2 /* Main.storyboard */,
 				46A2C5DA23BA2C86002D59C2 /* ViewControllers */,
 				46A2C5C023BA2BC8002D59C2 /* AppDelegate.swift */,
@@ -241,6 +252,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				460B2A4F23C3845D00F93BCF /*  Logins.swift in Sources */,
 				46A2C5C523BA2BC8002D59C2 /* ViewController.swift in Sources */,
 				46A2C5C123BA2BC8002D59C2 /* AppDelegate.swift in Sources */,
 				46A2C5D523BA2C39002D59C2 /* SignUpViewController.swift in Sources */,

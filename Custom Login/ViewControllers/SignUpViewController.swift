@@ -53,7 +53,32 @@ class SignUpViewController: UIViewController {
             } else {
                 /// user created now store it
                 print("Creating the user")
+                
+                let user = authResult!.user
 
+                user.delete { error in
+                  if let error = error {
+                    // An error happened.
+                    self.showError(error: "Error deleting user \(error.localizedDescription)")
+                    print("error deleting user")
+                  } else {
+                    // Account deleted.
+                    print("Account deleted")
+                  }
+                }
+                
+                /* Send e-mail confirmation
+                Auth.auth().currentUser?.sendEmailVerification { (error) in
+                    if let error = error {
+                        self.showError(error: "Error send e-mail verification \(error.localizedDescription)")
+                    } else {
+                        print("email sent")
+                    }
+                    
+                }
+                */
+
+               /*  Create the document
                 let db = Firestore.firestore()
                 
                 let docRef = db.collection("apiKeys").document("ydeSchool")
@@ -79,7 +104,7 @@ class SignUpViewController: UIViewController {
                                 print("Document successfully written!")
                             }
                         }
-                        
+                    
                         
 //                        ref = db.collection("users").addDocument(data: [
 //                            "firstName": firstName,
@@ -98,7 +123,7 @@ class SignUpViewController: UIViewController {
                         print("Document does not exist")
                     }
                 }
-                
+                */
                 
             }
         }
