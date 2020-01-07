@@ -21,6 +21,12 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        try! Auth.auth().signOut()
+        
+        
+        
 //        Auth.auth().signIn(withEmail: "hertzsteven@icloud.com", password: "test1234@") { (authDataResult, error) in
 //            if let error = error {
 //                print("signin error", error.localizedDescription)
@@ -36,6 +42,8 @@ class ViewController: UIViewController {
 //                }
 //            }
 //        }
+        
+        
 
         setupElements()
     }
@@ -62,7 +70,76 @@ class ViewController: UIViewController {
     }
         
     @IBAction func readPressed(_ sender: Any) {
+        if Auth.auth().currentUser != nil {
+          print("user is signed in")
+          // ...
+        } else {
+          print("user is not signed in")
+          // ...
+        }
         
+        verifyapiKeys()
+
+        verifyUsers()
+        
+        verifyloginVerification()
+        
+        
+    }
+    
+    func verifyapiKeys()  {
+        
+        let docRef = db.collection("apiKeys").document("ydeSchool")
+        
+        docRef.getDocument { (document, error) in
+            
+            /// handle the all the possible errors getting to the api Key
+            
+            /// - make sure the dicument exists if not it is a fatal error
+            guard let document = document, document.exists else {
+                print("verifyapiKeys - apiKeys,ydeSchool - Document not found:"); return
+            }
+            
+            /// - get the record dictionary  &  get the email field from the record dicionary which is also a dictionary (or map) in their lingo
+            guard let record = document.data(), let teacherAPIKey = record["teacherAPIKey"] as? String else {                //                /*
+                print("Could not get the teacherAPIKey field in the logins document"); return
+            }
+            
+            print(teacherAPIKey)
+            print("pause")
+            /// - Now that the value is gottenyou could create Api Record for the user
+            // self.createAPIRecordForUser(with: organization)
+        }
+    }
+    
+    func verifyUsers() {
+         
+         let docRef = db.collection("users").document("QlzyVmm90FXNnN0VIWUkapTEeSA3")
+         
+         docRef.getDocument { (document, error) in
+             
+             /// handle the all the possible errors getting to the api Key
+             
+             /// - make sure the dicument exists if not it is a fatal error
+             guard let document = document, document.exists else {
+                 print("verifyUsers - users, QlzyVmm90FXNnN0VIWUkapTEeSA3 - Document not found:"); return
+             }
+             
+             /// - get the record dictionary  &  get the email field from the record dicionary which is also a dictionary (or map) in their lingo
+             guard let record = document.data(), let nameFirst = record["firstName"] as? String else {                //                /*
+                 print("Could not get the name field in the logins document"); return
+             }
+             
+             print(nameFirst)
+             print("pause")
+             /// - Now that the value is gottenyou could create Api Record for the user
+             // self.createAPIRecordForUser(with: organization)
+             
+         }
+
+     }
+    
+    func verifyloginVerification() {
         let docRef = db.collection("loginVerification").document("logins")
         
         docRef.getDocument { (document, error) in
@@ -71,7 +148,7 @@ class ViewController: UIViewController {
             
             /// - make sure the dicument exists if not it is a fatal error
             guard let document = document, document.exists else {
-                print("Document not found:"); return
+                print("verifyloginVerification - loginVerification, logins - Document not found:"); return
             }
             
             /// - get the record dictionary  &  get the email field from the record dicionary which is also a dictionary (or map) in their lingo
@@ -84,11 +161,17 @@ class ViewController: UIViewController {
                 print("email address is not found"); return
             }
             
+            print(organization)
+            print("pause")
+            
             /// - Now that the value is gottenyou could create Api Record for the user
-            self.createAPIRecordForUser(with: organization)
+            // self.createAPIRecordForUser(with: organization)
             
         }
+
     }
+
+    
     
     func createAPIRecordForUser(with organization: String)  {
         

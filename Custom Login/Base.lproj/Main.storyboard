@@ -51,7 +51,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="ZRf-JB-9GQ"/>
                                         </constraints>
-                                        <state key="normal" title="Read"/>
+                                        <state key="normal" title="Read: Used To Test Security Rules"/>
                                         <connections>
                                             <action selector="readPressed:" destination="Rca-6G-ppO" eventType="touchUpInside" id="ToU-6p-1sZ"/>
                                         </connections>
@@ -106,7 +106,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kZa-oA-6e3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="413" y="793"/>
+            <point key="canvasLocation" x="387" y="793"/>
         </scene>
         <!--Sign Up View Controller-->
         <scene sceneID="Vl4-U8-22c">
@@ -228,7 +228,7 @@
                                             <action selector="loginTapped:" destination="iCy-FL-FQT" eventType="touchUpInside" id="Bqr-7K-oWX"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qz6-bk-9zT">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qz6-bk-9zT">
                                         <rect key="frame" x="0.0" y="210" width="334" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

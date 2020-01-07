@@ -25,6 +25,8 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
         setupElements()
     }
     
@@ -39,8 +41,7 @@ class LoginViewController: UIViewController {
         }
         
         guard let email = emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-            let password = passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
-            else {
+            let password = passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else {
                 print("failed in guard")
                 return
         }
@@ -48,27 +49,51 @@ class LoginViewController: UIViewController {
         
         print(email, password)
         Auth.auth().signIn(withEmail: email, password: password) { (authDataResult, error) in
-            if let err = error {
-                print("signin error")
-                self.showError(error: "Error Creating User \(err.localizedDescription)")
-            } else {
-                print("Getting the user")
+            
+            guard error == nil else {
+                self.showError(error: "Error Logging In \(error?.localizedDescription ?? "no value")"); return
+            }
+            
+            /// Determine if the user is e-mail verified
+            guard let isEmailVerified = authDataResult?.user.isEmailVerified else {
+                fatalError("Could not get the indidicator field if user is e-mail verified")
+            }
+            
+            switch isEmailVerified {
+            case true:
+                print("is verified")
+            case false:
+                print("not verified")
+                self.showError(error: "Please Verify the e-mail")
+                /// log user off
+                try! Auth.auth().signOut()
+                return
+            }
+            
+            /// -> Success! It is verified so lets get to work
+            
+            let db = Firestore.firestore()
+            
+            let uid = authDataResult!.user.uid
+            let docRef = db.collection("users").document(uid)
+            
+            docRef.getDocument { (document, error) in
                 
-                let db = Firestore.firestore()
-                
-                let uid = authDataResult!.user.uid
-                let docRef = db.collection("users").document(uid)
+                guard let document = document, document.exists else {
+                     print("Document not found:"); return
+                 }
 
-                docRef.getDocument { (document, error) in
-                    if let document = document, document.exists {
-                        guard let record = document.data(), let apiKey = record["apiKey"] as? String
-                            else {fatalError("could not convert it to a non optional")}
-                        print("We got the apikey it is \(apiKey)")
-                    }
+                guard let record = document.data(), let apiKey = record["apiKey"] as? String else {
+                    fatalError("could not convert it to a non optional")
                 }
+                
+                /// -> Success! - got the document and now can retreive the information
+                print("We got the apikey it is \(apiKey)")
+                
             }
         }
     }
+    
     
     func showError(error: String)  {
         errorLabel.text = error

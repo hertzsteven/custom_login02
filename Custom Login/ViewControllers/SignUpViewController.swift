@@ -52,11 +52,12 @@ class SignUpViewController: UIViewController {
         
         /// Create the user in firebase
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+            
             guard error == nil else {
                 self.showError(error: "Error Creating User \(error?.localizedDescription ?? "no value")"); return
              }
             
-            authResult?.user
+           
             let docRef = self.db.collection("loginVerification").document("logins")
             
             docRef.getDocument { (document, error) in
@@ -78,6 +79,7 @@ class SignUpViewController: UIViewController {
                     
                     print("email address: \(String(describing: authResult?.user.email)) is not found")
                     self.showError(error: "email address: \(String(describing: authResult?.user.email)) is not found")
+                    
                     ///Delete the user
                     let user = authResult!.user
                     
@@ -92,21 +94,35 @@ class SignUpViewController: UIViewController {
                         }
                     }
                     
-                    
                      return
                 }
                 
-                /// - Now that the value is gottenyou could create Api Record for the user
+                /// -> Success! Now that the value is gotten you send e-mail verification and create Api Record for the user
                 
-                /// senf verification e-mail
+                /// send verification e-mail
                 Auth.auth().currentUser?.sendEmailVerification { (error) in
+                    
                     guard error == nil else {
-                         self.showError(error: "Error send e-mail verification \(error?.localizedDescription ?? "no value")"); return
-                      }
+                        /// show the error
+                        self.showError(error: "Error send e-mail verification \(error?.localizedDescription ?? "no value")")
+                        ///Delete the user
+                        let user = authResult!.user
+                        user.delete { error in
+                            if let error = error {
+                                // An error happened.
+                                self.showError(error: "Error deleting user \(error.localizedDescription)")
+                                print("error deleting user")
+                            } else {
+                                // Account deleted.
+                                print("Account deleted")
+                            }
+                        }
+                        return
+                    }
 
-                    /// build record
-                    guard let x = authResult?.user.uid else {fatalError("could not get the uid")}
-                    self.createAPIRecordForUser(with: organization, uid: x)
+                    /// -> Success!, email sent.  create Api Record for the user
+                    guard let theUID = authResult?.user.uid else {fatalError("could not get the uid")}
+                    self.createAPIRecordForUser(with: organization, uid: theUID)
 
                     /// log user off
                     try! Auth.auth().signOut()
